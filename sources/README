@@ -1,0 +1,16 @@
+Name
+	arewiksd (arewik server daemon)
+Version
+	arewiksd 1.0.0 unstable
+Synopsis
+
+	Arewik is a gateway between ordinary plain text data generators and Nosql/BigData solutions.
+	It can be used as a tool to store some program log files into the Hadoop,Riak,ElasticSearch or just
+	store them into the local/remote disk.
+	Actually, it was designed to accept squid log information via network and save them to Riak storage
+	for further analysis. However, it can be used in various scenarios, as it accepts raw data on tcp socket,
+	anything can be passed to Arewik to save. 
+	
+	ex: tcpdump -np -w - |nc arewikhost arewikport
+	    tail -f /var/log/apache/access.log | nc arewikhost arewikport
+	It supports gzip and snappy compression for local, and snappy only compression for remote storages

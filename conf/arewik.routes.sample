@@ -1,0 +1,84 @@
+#--SAMPLE--
+# Templates
+#
+# $host = listen host ip
+# $date = date in "%d-%m-%Y" format
+# $time = time in "%H-%M" format
+# $day = day number
+# $week = week number
+# $month = month number
+# $ident = program ident
+# $tstamp = timestamp
+# $msec = mseconds of current time
+# 
+# Templates are applicable only for bucket,key,index-name,type-name,unique-id,dst-path-prefix configuration options
+
+routes = (
+    {
+        id = 0;
+        enabled = false;
+        source-hosts = [ "192.168.10.0/255.255.255.0", "127.0.0.0/255.255.255.0" ];
+        destination = "http://127.0.0.1:8098";
+        bucket = "$host";
+        key = "$msec"; 
+        auto-key = false; // make RIAK create the key for you :-)
+        backend = "riak";
+        buffering = false;
+        use-readline = false; 
+    },
+    {
+        id = 1;
+        enabled = false;
+        source-hosts = [ "192.168.10.0/255.255.255.0" ];
+        destination = "http://127.0.0.1:9200";
+        index-name = "twitter";    // indexname is the name of your index. This must be in all lowercase
+	type-name = "tweet"; // typename describes the type of document you're sticking into the index 
+        unique-id = "$msec"; // optional, templates allowed
+        backend = "esearch";
+        buffering = false;
+        use-readline = false;
+    },
+	{
+        id = 2;
+        enabled = true;
+        source-hosts = [ "192.168.177.3", "192.168.177.3" ];
+        namenode1 = "http://hadoop_nn1:50071";
+        namenode2 = "http://hadoop_nn2:50071";
+        dst-auth-user = "hive";
+        dst-path-prefix = "tmp/data/stats/$host/";
+        dst-path = "stats.log";
+        backend = "webhdfs";
+        data-by-blocks = true;
+        data-block-size = "10M";
+        use-compression = false;
+        buffersize = "128K";
+        compression-ratio = 5;
+# for remote storages snappy compression only supported for now
+        compressor = "snappy";
+        buffering = false;
+        rotate = true;
+# for remote storages by_time method only supported for now
+        rotate-method = "by_time"; // 0 - by_size, 1 - by_time
+        rotate-period = "30m"; // m|M - minute, h|H - hour
+        rotate-file-limit = "10M";
+        use-readline = false;
+    },
+{
+        id = 3;
+        enabled = false;
+        source-hosts = [ "127.0.0.0/255.255.255.0" ];
+        destination = "local.storage";
+        dst-path-prefix = "tmp/happy/$host/";
+        dst-path = "iam.happy";
+        backend = "plain"
+        use-compression = false;
+        compression-ratio = 5;
+        compressor = "snappy";
+        buffering = false;
+        rotate = true;
+        rotate-method = "by_size"; // 0 - by_size, 1 - by_time
+        rotate-period = "10m"; // m|M - minute, h|H - hour
+        rotate-file-limit = "10M";
+        use-readline = false;
+    }
+);

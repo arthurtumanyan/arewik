@@ -1,0 +1,99 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.67])
+AC_INIT([arewik_server], [1.0], [bugs@arewik.org])
+AC_CANONICAL_SYSTEM
+AM_INIT_AUTOMAKE
+AC_CONFIG_SRCDIR([arewik.h])
+AC_CONFIG_HEADERS([config.h])
+#
+# Checks for programs.
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
+#
+LIBDIR=/usr/lib/x86_64-linux-gnu/
+#
+AC_CHECK_HEADER([pthread.h],[
+	LDFLAGS="$LDFLAGS -L$LIBDIR"
+	AC_SUBST(LDFLAGS)
+	])
+AC_CHECK_HEADER([snappy.h],[        
+	LDFLAGS="$LDFLAGS"]
+	AC_SUBST(LDFLAGS)
+)
+#
+AC_CHECK_HEADERS([snappy-c.h \
+		stdio.h \
+		stdlib.h \
+		stdbool.h \
+		stdarg.h \
+		error.h \
+		errno.h \
+		math.h \
+		unistd.h \
+		sys/socket.h \
+		sys/time.h \
+		sys/stat.h \
+		sys/file.h \
+		sys/types.h \
+		arpa/inet.h \
+		string.h \
+		limits.h \
+		ctype.h \
+		fcntl.h \
+		syslog.h \
+		signal.h \
+		time.h \
+		sys/file.h \
+		syslog.h \
+		pwd.h \
+		grp.h \
+		getopt.h \
+		dirent.h \
+		sys/epoll.h \
+		sys/syscall.h \
+		sys/wait.h \
+		pthread.h \
+		zlib.h \
+		regex.h \
+		netdb.h \
+		ftw.h \
+		curl/curl.h \
+		libconfig.h \
+		json/json.h 
+])
+#
+# Checks for libraries
+AC_CHECK_LIB([pthread], [pthread_create],[],[
+                AC_MSG_ERROR([pthread library not found.])
+])
+AC_CHECK_LIB([config], [config_init],[],[
+                AC_MSG_ERROR([libconfig library not found.])
+])
+AC_CHECK_LIB([snappy], [snappy_compress],[
+],[
+                AC_MSG_ERROR([libsnappy library not found.])
+])
+AC_CHECK_LIB([json], [json_tokener_parse],[
+],[
+                AC_MSG_ERROR([libjson library not found.])
+])
+AC_CHECK_LIB([z], [compress2],[],[
+                AC_MSG_ERROR([libz library not found.])
+])
+AC_CHECK_LIB([curl], [curl_easy_init],[],[
+                AC_MSG_ERROR([libcurl library not found.])
+])
+AC_CHECK_LIB([m], [fmod],[],[
+                AC_MSG_ERROR([math library not found.])
+])
+
+#
+LIBS="-lpthread -lm -lz -lcurl -lsnappy -ljson -lconfig"
+#
+#
+AC_SUBST(LIBS)
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT

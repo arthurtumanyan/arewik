@@ -1,0 +1,33 @@
+# --SAMPLE--
+# --GLOBAL SETTINGS--
+#
+sock-timeout = 11; // Value used for the SO_RCVTIMEO and SO_SNDTIMEO socket options to set timeouts for any socket operations
+epoll-timeout = 5; // Disconnect client if the client doesn't sent anything for epoll-timeout seconds period time 
+max-workers = 800; // Maximum worker threads count. Actually this value is equivalent to the maximum clients count
+maxcon = 800; // Maximum count of allowed connections
+watchdog-interval = 30; // Watchdog thread checks buffer directory every watchdog-interval seconds for a buffer file and uploads it to the remote server
+ping-interval = 30; // Another thread checks connection status of each enabled route's backend every ping-interval seconds. If check fails, the route marks as inactive
+auto-reconfigure = true; // If is true then program will be reconfigured after each reconfigure-interval seconds
+use-resolver = true; // Use network address resolver or not
+reconfigure-interval = 30; // Reconfiguration interval; See auto-reconfigure 
+debuginfo = true; // Use detailed logging
+log-to-syslog = false; // If true syslog will be used as a logger instead of internal logger
+foreground = true; // If true program will not daemonize
+group = "arewik"; // Group
+user = "arewik"; // User
+listen = "0.0.0.0"; // Listen to this address
+port = 1114; // Listen to this port
+verbose = true; // Copy error messages to the STDOUT
+logdir = "/var/log/arewik"; // Logging directory
+workdir = "/tmp"; // Working directory
+bufferdir = "/var/arewik/buffers"; // Buffer directory
+storagedir = "/var/arewik"; // Storage directory for files, in case route's backend defined as 'plain'
+pidfile = "/tmp/arewik.pid"; // Pid file
+custom_log = "custom.log"; // Custom log file.  If empty, then nothing will be logged 
+debug_log = "debug.log"; // Debug log file.  If empty, then nothing will be logged 
+connections_log = "connects.log"; // Connections log file.  If empty, then nothing will be logged 
+access_log = "access.log"; // Access log file. If empty, then nothing will be logged 
+ident = "ArewikLog"; // Program ident line
+// Enabled modules
+modules = ["riak",  "webhdfs",  "plain", "esearch"];
+

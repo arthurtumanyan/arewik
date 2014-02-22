@@ -1,0 +1,47 @@
+Installation Instructions
+*************************
+
+Dependencies
+============
+
+* libconfig (http://www.hyperrealm.com/libconfig/)
+* json-c (http://oss.metaparadigm.com/json-c/)
+* libcurl (http://curl.haxx.se/libcurl/)
+* libsnappy (https://code.google.com/p/snappy/)
+
+Basic Installation
+==================
+Before compiling, install all the dependencies according to their installation rules
+
+In Debian/Ubuntu environment that can be done like this
+
+	apt-get -y install libconfig8 libjson0 libcurl3 libsnappy1
+
+Briefly, the shell commands './init.sh;./configure; make; make install' should
+configure, build, and install this package.
+
+	Note! After make install only 'arewiksd' will be installed into /usr/bin
+	All other files need to be copied manually
+
+After that, make sure you have added user and group named 'arewik' (this is the default username)
+Create directories for log files and buffers
+
+	mkdir /var/log/arewik
+	chown arewik:arewik /var/log/arewik
+	mkdir -p /var/arewik/buffers
+	chown -R arewik:arewik /var/arewik
+
+Create configuration directory
+
+	mkdir /etc/arewik
+	chown arewik:arewik /etc/arewik
+
+Make sure init script is in /etc/init.d/ directory
+	cp init.d/arewiksd /etc/init.d/
+
+Now, copy configuration file samples to the configuration directory
+
+	cp -R conf/arewik.*.sample /etc/arewik/
+	chown arewik:arewik /etc/arewik/*
+
+Done.
